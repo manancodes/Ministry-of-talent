@@ -7,7 +7,7 @@ app ministyOfTalent {
         "<meta property='og:type' content='website' />",
         "<meta property='og:url' content='https://mySaaSapp.com' />",
         "<meta property='og:description' content='I made a SaaS App. Buy my stuff.' />",
-        "<meta property='og:image' content='src/client/static/image.png' />",
+        "<meta property='og:image' content='src/logo.png' />",
         // you can put your google analytics script here, too!
   ],
   // 🔐 Auth out of the box! https://wasp-lang.dev/docs/auth/overview
@@ -149,7 +149,17 @@ page GptPage {
 
 route JobListing { path: "/jobs", to: JobListing }
 page JobListing {
-  component: import Pricing from "@client/JobListing"
+  component: import JobListing from "@client/JobListing"
+}
+
+route Job { path: "/jobs/:jobID", to: Job }
+page Job {
+  component: import Job from "@client/Job"
+}
+
+route Profile { path: "/profile", to: Profile }
+page Profile {
+  component: import Profile from "@client/Profile"
 }
 
 route PricingRoute { path: "/pricing", to: PricingPage }

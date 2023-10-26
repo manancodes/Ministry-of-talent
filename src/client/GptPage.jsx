@@ -1,22 +1,15 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { RelatedObject } from "@wasp/entities";
 import generateGptResponse from "@wasp/actions/generateGptResponse";
 import useAuth from "@wasp/auth/useAuth";
 
-type GptPayload = {
-  instructions: string;
-  command: string;
-  temperature: number;
-};
-
 export default function GptPage() {
-  const [temperature, setTemperature] = useState<number>(1);
-  const [response, setResponse] = useState<string>("");
+  const [temperature, setTemperature] = useState < number > 1;
+  const [response, setResponse] = useState < string > "";
 
   const { data: user } = useAuth();
 
-  const onSubmit = async ({ instructions, command, temperature }: any) => {
+  const onSubmit = async ({ instructions, command, temperature }) => {
     console.log("user, ", !!user);
     if (!user) {
       alert("You must be logged in to use this feature.");

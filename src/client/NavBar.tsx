@@ -20,14 +20,12 @@ export default function NavBar() {
             <div className="flex h-16 justify-between">
               <div className="flex">
                 <div className="flex flex-shrink-0 items-center">
-                  <a href="/">
+                  <a className="flex items-center" href="/">
                     <img className="h-8 w-8" src={logo} alt="My SaaS App" />
+                    <h1 className="ml-4">Ministry of Talent</h1>
                   </a>
                 </div>
                 <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                  <a href="/" className={current === "/" ? active : inactive}>
-                    Landing Page
-                  </a>
                   <a
                     href="/jobs"
                     className={current.includes("jobs") ? active : inactive}
@@ -35,16 +33,16 @@ export default function NavBar() {
                     Find Jobs
                   </a>
                   <a
+                    href="/profile"
+                    className={current.includes("profile") ? active : inactive}
+                  >
+                    Profile
+                  </a>
+                  <a
                     href="/pricing"
                     className={current.includes("pricing") ? active : inactive}
                   >
                     Pricing
-                  </a>
-                  <a
-                    href="/gpt"
-                    className={current.includes("gpt") ? active : inactive}
-                  >
-                    GPT
                   </a>
                 </div>
               </div>
