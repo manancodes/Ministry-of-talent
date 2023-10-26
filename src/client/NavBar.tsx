@@ -4,9 +4,9 @@ import { AiOutlineBars, AiOutlineClose, AiOutlineUser } from "react-icons/ai";
 import useAuth from "@wasp/auth/useAuth";
 
 const active =
-  "inline-flex items-center border-b-2 border-indigo-300 px-1 pt-1 text-sm font-medium text-gray-900";
+  "inline-flex items-center border-b-2 border-purple-800 px-1 pt-1 text-sm font-medium text-gray-900 hover:text-purple-800";
 const inactive =
-  "inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700";
+  "inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-purple-800";
 const current = window.location.pathname;
 
 export default function NavBar() {
@@ -36,7 +36,7 @@ export default function NavBar() {
                     href="/profile"
                     className={current.includes("profile") ? active : inactive}
                   >
-                    Profile
+                    MOT Profile
                   </a>
                   <a
                     href="/pricing"
@@ -79,24 +79,25 @@ export default function NavBar() {
             <div className="space-y-1 pt-2 pb-3">
               <Disclosure.Button
                 as="a"
-                href="/"
-                className="block border-l-4 border-indigo-300 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-500"
+                href="/jobs"
+                className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
               >
-                Landing Page
+                Find Jobs
               </Disclosure.Button>
+              <Disclosure.Button
+                as="a"
+                href="/profile"
+                className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+              >
+                MOT Profile
+              </Disclosure.Button>
+
               <Disclosure.Button
                 as="a"
                 href="/pricing"
                 className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
               >
                 Pricing
-              </Disclosure.Button>
-              <Disclosure.Button
-                as="a"
-                href="/gpt"
-                className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
-              >
-                GPT
               </Disclosure.Button>
               <Disclosure.Button
                 as="a"

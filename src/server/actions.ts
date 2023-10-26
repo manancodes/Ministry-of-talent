@@ -1,52 +1,55 @@
-import fetch from 'node-fetch';
-import HttpError from '@wasp/core/HttpError.js';
-import type { RelatedObject } from '@wasp/entities';
-import type { GenerateGptResponse, StripePayment } from '@wasp/actions/types';
-import type { StripePaymentResult, OpenAIResponse } from './types';
-import Stripe from 'stripe';
+import fetch from "node-fetch";
+import HttpError from "@wasp/core/HttpError.js";
+import type { RelatedObject } from "@wasp/entities";
+import type { GenerateGptResponse, StripePayment } from "@wasp/actions/types";
+import type { StripePaymentResult, OpenAIResponse } from "./types";
+import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_KEY!, {
-  apiVersion: '2022-11-15',
+  apiVersion: "2022-11-15",
 });
 
 // WASP_WEB_CLIENT_URL will be set up by Wasp when deploying to production: https://wasp-lang.dev/docs/deploying
-const DOMAIN = process.env.WASP_WEB_CLIENT_URL || 'http://localhost:3000';
+const DOMAIN = process.env.WASP_WEB_CLIENT_URL || "http://localhost:3000";
 
-export const stripePayment: StripePayment<void, StripePaymentResult> = async (_args, context) => {
+export const stripePayment: StripePayment<void, StripePaymentResult> = async (
+  _args,
+  context
+) => {
   if (!context.user) {
     throw new HttpError(401);
   }
-  
+
   let customer: Stripe.Customer;
   const stripeCustomers = await stripe.customers.list({
     email: context.user.email!,
   });
   if (!stripeCustomers.data.length) {
-    console.log('creating customer');
+    console.log("creating customer");
     customer = await stripe.customers.create({
       email: context.user.email!,
     });
   } else {
-    console.log('using existing customer');
+    console.log("using existing customer");
     customer = stripeCustomers.data[0];
   }
 
-  const session: Stripe.Checkout.Session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        price: process.env.SUBSCRIPTION_PRICE_ID!,
-        quantity: 1,
+  const session: Stripe.Checkout.Session =
+    await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price: process.env.SUBSCRIPTION_PRICE_ID!,
+          quantity: 1,
+        },
+      ],
+      mode: "subscription",
+      success_url: `${DOMAIN}/checkout?success=true`,
+      cancel_url: `${DOMAIN}/checkout?canceled=true`,
+      customer_update: {
+        address: "auto",
       },
-    ],
-    mode: 'subscription',
-    success_url: `${DOMAIN}/checkout?success=true`,
-    cancel_url: `${DOMAIN}/checkout?canceled=true`,
-    automatic_tax: { enabled: true },
-    customer_update: {
-      address: 'auto',
-    },
-    customer: customer.id,
-  });
+      customer: customer.id,
+    });
 
   await context.entities.User.update({
     where: {
@@ -59,7 +62,7 @@ export const stripePayment: StripePayment<void, StripePaymentResult> = async (_a
   });
 
   if (!session) {
-    throw new HttpError(402, 'Could not create a Stripe session');
+    throw new HttpError(402, "Could not create a Stripe session");
   } else {
     return {
       sessionUrl: session.url,
@@ -74,23 +77,23 @@ type GptPayload = {
   temperature: number;
 };
 
-export const generateGptResponse: GenerateGptResponse<GptPayload, RelatedObject> = async (
-  { instructions, command, temperature },
-  context
-) => {
+export const generateGptResponse: GenerateGptResponse<
+  GptPayload,
+  RelatedObject
+> = async ({ instructions, command, temperature }, context) => {
   if (!context.user) {
     throw new HttpError(401);
   }
 
   const payload = {
-    model: 'gpt-3.5-turbo',
+    model: "gpt-3.5-turbo",
     messages: [
       {
-        role: 'system',
+        role: "system",
         content: instructions,
       },
       {
-        role: 'user',
+        role: "user",
         content: command,
       },
     ],
@@ -99,9 +102,9 @@ export const generateGptResponse: GenerateGptResponse<GptPayload, RelatedObject>
 
   try {
     if (!context.user.hasPaid && !context.user.credits) {
-      throw new HttpError(402, 'User has not paid or is out of credits');
+      throw new HttpError(402, "User has not paid or is out of credits");
     } else if (context.user.credits && !context.user.hasPaid) {
-      console.log('decrementing credits');
+      console.log("decrementing credits");
       await context.entities.User.update({
         where: { id: context.user.id },
         data: {
@@ -112,18 +115,18 @@ export const generateGptResponse: GenerateGptResponse<GptPayload, RelatedObject>
       });
     }
 
-    console.log('fetching', payload);
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    console.log("fetching", payload);
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.OPENAI_API_KEY!}`,
       },
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(payload),
     });
 
     const json = (await response.json()) as OpenAIResponse;
-    console.log('response json', json);
+    console.log("response json", json);
     return context.entities.RelatedObject.create({
       data: {
         content: json?.choices[0].message.content,
@@ -144,5 +147,5 @@ export const generateGptResponse: GenerateGptResponse<GptPayload, RelatedObject>
     console.error(error);
   }
 
-  throw new HttpError(500, 'Something went wrong');
+  throw new HttpError(500, "Something went wrong");
 };
