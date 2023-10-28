@@ -118,7 +118,7 @@ function BuyMoreButton({
           isLoading && "animate-pulse"
         }`}
       >
-        {!isLoading ? "Buy More/Upgrade" : "Loading..."}
+        {!isLoading ? "Subscribe" : "Loading..."}
       </button>
     </div>
   );

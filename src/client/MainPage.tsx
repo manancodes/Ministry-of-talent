@@ -4,8 +4,8 @@ const HomePage = () => {
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="container  mx-auto p-8">
-        <h1 className="text-3xl font-semibold text-center mb-6">
-          Welcome to Ministry of Talent
+        <h1 className="text-5xl text-purple-800 font-semibold text-center mb-6">
+          Ministry of Talent 🪄
         </h1>
         <p className="text-lg text-center mb-6">
           Find your dream job and create personalized resumes for a successful
@@ -53,14 +53,21 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="m-12 rounded-lg shadow-md bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 py-4 text-center">
-        <h1 className="text-white text-m font-bold">
+      <div className="m-12 rounded-lg shadow-md bg-gray-300 py-4 text-center">
+        <h1 className=" text-m font-bold">
           1024 people found their dream job on Ministry of Talent!
-          <a href="/Profile" className="ml-4">
+          <a href="/Profile" className="ml-1">
             Create your profile
           </a>
         </h1>
       </div>
+      <a href="https://wasp-lang.dev/" target="_blank">
+        <div className="m-12 rounded-lg shadow-md bg-gradient-to-r from-yellow-500 to-yellow-300 py-4 text-center">
+          <h1 className="text-white text-m font-bold">
+            Made with love ❤️ using Wasp 🐝
+          </h1>
+        </div>
+      </a>
     </div>
   );
 };
