@@ -1,5 +1,7 @@
 # Ministry of Talent 
 
+The website is published [here](https://ministry-of-talent.netlify.app/). Made using [**Wasp-lang**](https://wasp-lang.dev/):
+
 ## Table of Contents
 
 1. [Introduction](#introduction)
@@ -10,8 +12,6 @@
 ---
 
 ## Introduction
-
-The website is published [here](https://ministry-of-talent.netlify.app/).
 
 Welcome to the **Ministry of Talent**, a revolutionary SaaS product designed to empower job seekers in their quest to find the perfect job. Our platform allows you to create customized and professionally crafted resumes using our cutting-edge AI technology, known as MOT-Profile. This personalized profile is your ticket to landing the job of your dreams and stands out as a powerful tool for job applications right on our website. With a subscription, you gain access to unlimited re-generations of your MOT-Profile, ensuring that you are always ready to apply for your next opportunity.
 
